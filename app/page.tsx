@@ -344,6 +344,29 @@ function Contact() {
           <div className="mt-9 overflow-hidden rounded-[26px] border border-purple/14">
             <Image src="/reference/therapy-card.jpeg" alt="The Healing Hour therapy card reference" width={900} height={520} className="h-auto w-full object-cover opacity-90" />
           </div>
+          <div className="mt-8 overflow-hidden rounded-3xl border border-purple/14 bg-gradient-to-br from-white/82 via-cream to-beige/62 p-6 shadow-lg dark:from-white/10 dark:via-white/8 dark:to-lavender/10 sm:p-7">
+            <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-start gap-4">
+                <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-lavender/24 text-purple shadow-sm dark:text-beige">
+                  <MapPin size={24} aria-hidden="true" />
+                </span>
+                <div>
+                  <h3 className="serif text-3xl font-semibold text-purple dark:text-beige">Visit Us</h3>
+                  <p className="mt-2 text-base font-medium leading-7 text-ink/70 dark:text-cream/76">
+                    Ramprastha Greens, Vaishali
+                  </p>
+                </div>
+              </div>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=The%20healing%20hour%20Ramprastha%20Greens%20Vaishali"
+                target="_blank"
+                rel="noreferrer"
+                className="focus-ring inline-flex items-center justify-center gap-2 rounded-full bg-purple px-5 py-3 text-sm font-semibold text-white shadow-bloom transition hover:-translate-y-1 hover:bg-[#7f6aa8]"
+              >
+                Open in Google Maps <ArrowRight size={16} aria-hidden="true" />
+              </a>
+            </div>
+          </div>
         </motion.div>
 
         <motion.form

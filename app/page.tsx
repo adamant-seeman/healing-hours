@@ -326,10 +326,44 @@ function Testimonials() {
 
 function Contact() {
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState("");
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSent(true);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    setSubmitting(true);
+    setSent(false);
+    setFormError("");
+
+    try {
+      const response = await fetch("/api/enquiry", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: formData.get("name"),
+          phone: formData.get("phone"),
+          email: formData.get("email"),
+          message: formData.get("message")
+        })
+      });
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || "Unable to submit enquiry.");
+      }
+
+      form.reset();
+      setSent(true);
+    } catch (error) {
+      setFormError(error instanceof Error ? error.message : "Unable to submit enquiry.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -376,10 +410,10 @@ function Contact() {
           aria-label="Contact form"
         >
           <div className="grid gap-5 sm:grid-cols-2">
-            <Field label="Name" name="name" placeholder="Your name" />
-            <Field label="Phone" name="phone" placeholder="Your phone number" />
+            <Field label="Name" name="name" placeholder="Your name" required />
+            <Field label="Phone" name="phone" placeholder="Your phone number" required />
           </div>
-          <Field label="Email" name="email" placeholder="you@example.com" type="email" className="mt-5" />
+          <Field label="Email" name="email" placeholder="you@example.com" type="email" className="mt-5" required />
           <label className="mt-5 block">
             <span className="mb-2 block text-sm font-semibold text-ink/72 dark:text-cream/78">How can we support you?</span>
             <textarea
@@ -389,12 +423,17 @@ function Contact() {
               placeholder="Share a few lines about what you are looking for."
             />
           </label>
-          <button type="submit" className="focus-ring mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-purple px-7 py-4 font-semibold text-white shadow-bloom transition hover:-translate-y-1 hover:bg-[#7f6aa8] sm:w-auto">
-            Send Enquiry <Send size={18} />
+          <button type="submit" disabled={submitting} className="focus-ring mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-purple px-7 py-4 font-semibold text-white shadow-bloom transition hover:-translate-y-1 hover:bg-[#7f6aa8] disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto">
+            {submitting ? "Sending..." : "Send Enquiry"} <Send size={18} />
           </button>
+          {formError && (
+            <p role="alert" className="mt-5 rounded-[20px] bg-red-50 px-5 py-4 text-sm font-semibold text-red-700">
+              {formError}
+            </p>
+          )}
           {sent && (
             <p role="status" className="mt-5 rounded-[20px] bg-sage/18 px-5 py-4 text-sm font-semibold text-ink/72 dark:text-cream/78">
-              Thank you. Your enquiry is ready to be connected to a booking workflow or clinic inbox.
+              Thank you. We will contact you soon.
             </p>
           )}
         </motion.form>
@@ -408,13 +447,15 @@ function Field({
   name,
   placeholder,
   type = "text",
-  className = ""
+  className = "",
+  required = false
 }: {
   label: string;
   name: string;
   placeholder: string;
   type?: string;
   className?: string;
+  required?: boolean;
 }) {
   return (
     <label className={`block ${className}`}>
@@ -422,6 +463,7 @@ function Field({
       <input
         name={name}
         type={type}
+        required={required}
         className="focus-ring w-full rounded-full border border-purple/14 bg-white/65 px-5 py-4 text-ink shadow-sm outline-none transition placeholder:text-ink/36 focus:border-purple/40 dark:bg-white/8 dark:text-cream dark:placeholder:text-cream/35"
         placeholder={placeholder}
       />

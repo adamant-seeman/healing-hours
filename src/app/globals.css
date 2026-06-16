@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 38 56% 96%;
+    --foreground: 18 28% 12%;
+    --card: 36 45% 98%;
+    --card-foreground: 18 28% 12%;
+    --popover: 36 45% 98%;
+    --popover-foreground: 18 28% 12%;
+    --primary: 348 56% 34%;
+    --primary-foreground: 38 56% 96%;
+    --secondary: 146 17% 31%;
+    --secondary-foreground: 38 56% 96%;
+    --muted: 34 30% 90%;
+    --muted-foreground: 22 14% 42%;
+    --accent: 43 73% 83%;
+    --accent-foreground: 18 28% 12%;
+    --destructive: 0 72% 42%;
+    --destructive-foreground: 38 56% 96%;
+    --border: 28 25% 82%;
+    --input: 28 25% 82%;
+    --ring: 348 56% 34%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 18 21% 8%;
+    --foreground: 38 48% 92%;
+    --card: 18 20% 11%;
+    --card-foreground: 38 48% 92%;
+    --popover: 18 20% 11%;
+    --popover-foreground: 38 48% 92%;
+    --primary: 43 73% 76%;
+    --primary-foreground: 18 21% 8%;
+    --secondary: 146 18% 35%;
+    --secondary-foreground: 38 48% 92%;
+    --muted: 20 18% 17%;
+    --muted-foreground: 36 20% 68%;
+    --accent: 348 42% 32%;
+    --accent-foreground: 38 48% 92%;
+    --destructive: 0 62% 46%;
+    --destructive-foreground: 38 48% 92%;
+    --border: 20 15% 22%;
+    --input: 20 15% 22%;
+    --ring: 43 73% 76%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans), Inter, system-ui, sans-serif;
+    text-rendering: optimizeLegibility;
+  }
+}

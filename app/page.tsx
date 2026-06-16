@@ -23,12 +23,42 @@ import { FormEvent, useEffect, useState } from "react";
 const navLinks = ["Home", "About", "Services", "Support Areas", "Resources", "Contact"];
 
 const supportAreas = [
-  "Child Counselling",
-  "Individual Counselling",
-  "Family Counselling",
-  "Stress & Anxiety Support",
-  "Relationship Counselling",
-  "Mental Wellness Support"
+  {
+    title: "Individual Counselling",
+    duration: "50-60 minutes",
+    description:
+      "A supportive space for self-exploration, emotional growth, decision-making, and life transitions."
+  },
+  {
+    title: "Child Counselling",
+    duration: "50-60 minutes",
+    description:
+      "Helping children navigate emotions, behavioural challenges, school concerns, and confidence building."
+  },
+  {
+    title: "Family Counselling",
+    duration: "60-90 minutes",
+    description:
+      "Supporting families in improving communication, resolving conflicts, and fostering stronger relationships."
+  },
+  {
+    title: "Stress & Anxiety Support",
+    duration: "50-60 minutes",
+    description:
+      "Practical and evidence-based support for managing anxiety, stress, overthinking, and emotional overwhelm."
+  },
+  {
+    title: "Relationship Counselling",
+    duration: "50-60 minutes",
+    description:
+      "Strengthening communication, understanding patterns, and building healthier connections."
+  },
+  {
+    title: "Emotional Well-being Support",
+    duration: "50-60 minutes",
+    description:
+      "Helping individuals develop emotional resilience, self-awareness, and healthy coping strategies to navigate life's challenges and foster overall well-being."
+  }
 ];
 
 const testimonials = [
@@ -46,6 +76,25 @@ const testimonials = [
     quote:
       "The Healing Hour brings calm professionalism and warmth together in a way that feels very rare.",
     name: "Family support client"
+  }
+];
+
+const faqs = [
+  {
+    question: "Are sessions confidential?",
+    answer: "Yes, all sessions are conducted with professional confidentiality."
+  },
+  {
+    question: "Do you offer online sessions?",
+    answer: "Yes, online sessions are available."
+  },
+  {
+    question: "How long is a session?",
+    answer: "Typically 50-60 minutes."
+  },
+  {
+    question: "How do I book?",
+    answer: "Use the Book Session button or contact via WhatsApp."
   }
 ];
 
@@ -72,6 +121,7 @@ export default function Home() {
       <SupportAreas />
       <Philosophy />
       <Testimonials />
+      <FAQ />
       <Contact />
       <Footer />
     </main>
@@ -163,7 +213,7 @@ function Navbar({
 
 function Hero() {
   return (
-    <section id="home" className="mx-auto grid min-h-screen max-w-7xl items-center gap-12 px-5 pb-20 pt-32 sm:px-8 lg:grid-cols-[1.02fr_0.98fr] lg:pt-28">
+    <section id="home" className="mx-auto flex min-h-screen max-w-7xl items-center px-5 pb-20 pt-32 sm:px-8 lg:pt-28">
       <motion.div initial="hidden" animate="visible" transition={{ staggerChildren: 0.12 }} className="max-w-3xl">
         <motion.p variants={fadeUp} className="mb-5 inline-flex items-center gap-2 rounded-full border border-purple/18 bg-white/50 px-4 py-2 text-sm font-medium text-purple shadow-sm backdrop-blur dark:bg-white/8 dark:text-beige">
           <Sparkles size={16} />
@@ -182,22 +232,6 @@ function Hero() {
           <a href="#about" className="focus-ring inline-flex items-center justify-center gap-2 rounded-full border border-purple/20 bg-white/55 px-7 py-4 font-semibold text-purple shadow-sm backdrop-blur transition hover:-translate-y-1 hover:bg-lavender/18 dark:bg-white/8 dark:text-beige">
             Learn More <ArrowRight size={18} />
           </a>
-        </motion.div>
-      </motion.div>
-
-      <motion.div
-        aria-label="Minimal face line art with leaves symbolizing healing growth"
-        initial={{ opacity: 0, scale: 0.95, y: 24 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="glass relative mx-auto aspect-[0.92] w-full max-w-[560px] overflow-hidden rounded-[36px] p-7"
-      >
-        <motion.div
-          animate={{ y: [0, -14, 0], rotate: [0, 1.4, 0] }}
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute inset-0"
-        >
-          <HeroIllustration />
         </motion.div>
       </motion.div>
     </section>
@@ -236,17 +270,19 @@ function Therapist() {
   return (
     <Section id="about" eyebrow="Meet your therapist" title="Compassionate care with calm clinical depth.">
       <motion.div variants={fadeUp} className="glass grid gap-8 rounded-[32px] p-6 sm:p-8 lg:grid-cols-[0.78fr_1.22fr]">
-        <div className="relative min-h-80 overflow-hidden rounded-[28px] bg-beige/50">
-          <Image src="/reference/letterhead.jpeg" alt="The Healing Hour brand letterhead reference" fill className="object-cover opacity-80" sizes="(min-width: 1024px) 420px, 100vw" />
-          <div className="absolute inset-0 bg-gradient-to-t from-purple/55 via-transparent to-cream/20" />
+        <div className="relative mx-auto aspect-[3/4] w-full max-w-sm overflow-hidden rounded-[28px] bg-beige/50 lg:min-h-[34rem] lg:max-w-none">
+          <Image src="/reference/client.jpeg" alt="Devanshi Singh, Counselling Psychologist" fill className="object-cover object-center" sizes="(min-width: 1024px) 420px, 100vw" />
+          <div className="absolute inset-0 bg-gradient-to-t from-purple/18 via-transparent to-transparent" />
         </div>
         <div className="flex flex-col justify-center">
           <p className="serif text-4xl font-semibold text-purple dark:text-beige sm:text-5xl">Devanshi Singh</p>
           <p className="mt-2 text-xl font-medium text-ink/78 dark:text-cream/78">Counselling Psychologist</p>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-ink/68 dark:text-cream/72">
-            A grounded, confidential space for children, individuals, couples, and families to explore emotions,
-            strengthen coping skills, and move toward healthier patterns.
-          </p>
+          <div className="mt-7 max-w-2xl rounded-[26px] border border-purple/14 bg-white/45 p-5 shadow-sm dark:bg-white/8">
+            <h3 className="serif text-3xl font-semibold text-purple dark:text-beige">My Approach</h3>
+            <p className="mt-3 leading-8 text-ink/68 dark:text-cream/72">
+              I believe in creating a safe, empathetic, and non-judgmental space where individuals can explore their thoughts and emotions. My approach integrates evidence-based techniques with compassionate support, tailored to each client's unique needs.
+            </p>
+          </div>
           <div className="mt-8 flex flex-wrap gap-3">
             {["CBT-informed", "Hypnotherapy-informed", "Compassionate Support"].map((tag) => (
               <span key={tag} className="rounded-full border border-purple/16 bg-white/55 px-4 py-2 text-sm font-semibold text-purple shadow-sm dark:bg-white/8 dark:text-beige">
@@ -262,11 +298,11 @@ function Therapist() {
 
 function SupportAreas() {
   return (
-    <Section id="support-areas" eyebrow="Areas of support" title="Care shaped around the conversations that matter.">
+    <Section id="support-areas" eyebrow="Sessions" title="Care shaped around the conversations that matter.">
       <div id="services" className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         {supportAreas.map((area, index) => (
           <motion.article
-            key={area}
+            key={area.title}
             variants={fadeUp}
             whileHover={{ y: -8, scale: 1.01 }}
             className="glass group min-h-52 rounded-[28px] p-7 transition"
@@ -274,13 +310,24 @@ function SupportAreas() {
             <div className="mb-8 grid h-12 w-12 place-items-center rounded-2xl bg-lavender/26 text-purple transition group-hover:bg-purple group-hover:text-white dark:text-beige">
               {index % 3 === 0 ? <Brain size={23} /> : index % 3 === 1 ? <HeartHandshake size={23} /> : <Sparkles size={23} />}
             </div>
-            <h3 className="serif text-3xl font-semibold text-purple dark:text-beige">{area}</h3>
+            <h3 className="serif flex min-h-[5.6rem] items-end text-3xl font-semibold text-purple dark:text-beige sm:min-h-[6.2rem]">
+              {area.title}
+            </h3>
+            <p className="mt-3 inline-flex rounded-full bg-lavender/18 px-4 py-2 text-sm font-semibold text-purple dark:bg-white/8 dark:text-beige">
+              {area.duration}
+            </p>
             <p className="mt-4 leading-7 text-ink/64 dark:text-cream/70">
-              Thoughtful counselling support with steady pacing, emotional safety, and practical reflection.
+              {area.description}
             </p>
           </motion.article>
         ))}
       </div>
+      <motion.article variants={fadeUp} className="glass mt-6 rounded-[28px] p-7 sm:p-8">
+        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-sage">Fee Information</p>
+        <p className="mt-4 max-w-3xl text-lg leading-8 text-ink/70 dark:text-cream/76">
+          Session fees are shared during the consultation call. Please contact us to discuss your needs and book an appointment.
+        </p>
+      </motion.article>
     </Section>
   );
 }
@@ -317,6 +364,21 @@ function Testimonials() {
             <p className="mt-8 text-sm font-semibold uppercase tracking-[0.24em] text-purple dark:text-beige">
               {item.name}
             </p>
+          </motion.article>
+        ))}
+      </div>
+    </Section>
+  );
+}
+
+function FAQ() {
+  return (
+    <Section id="faq" eyebrow="Frequently Asked Questions" title="A few things clients often ask.">
+      <div className="grid gap-5 md:grid-cols-2">
+        {faqs.map((faq) => (
+          <motion.article key={faq.question} variants={fadeUp} className="glass rounded-[28px] p-7">
+            <h3 className="serif text-3xl font-semibold text-purple dark:text-beige">{faq.question}</h3>
+            <p className="mt-4 leading-7 text-ink/68 dark:text-cream/74">{faq.answer}</p>
           </motion.article>
         ))}
       </div>
@@ -371,7 +433,7 @@ function Contact() {
       <div className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
         <motion.div variants={fadeUp} className="glass rounded-[32px] p-7 sm:p-8">
           <div className="space-y-5">
-            <ContactRow icon={<Phone size={20} />} label="Phone" value="8796131623" href="tel:8796131623" />
+            <ContactRow icon={<Phone size={20} />} label="Phone" value="8796131623 / 9910857707" href="tel:8796131623" />
             <ContactRow icon={<Mail size={20} />} label="Email" value="dishalive22@gmail.com" href="mailto:dishalive22@gmail.com" />
             <ContactRow icon={<MapPin size={20} />} label="Location" value="Ramprastha Greens, Vaishali" />
           </div>
